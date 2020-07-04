@@ -34,18 +34,16 @@ func writeForward(
 	incomingConnection net.Conn,
 	outgoingConnection net.Conn) {
 
-	for {
-		io.Copy(outgoingConnection, incomingConnection)
-	}
+	defer outgoingConnection.Close()
+	io.Copy(outgoingConnection, incomingConnection)
 }
 
 func writeBackward(
 	outgoingConnection net.Conn,
 	incomingConnection net.Conn) {
 
-	for {
-		io.Copy(incomingConnection, outgoingConnection)
-	}
+	defer incomingConnection.Close()
+	io.Copy(incomingConnection, outgoingConnection)
 }
 
 func proxyConnection(inConn net.Conn) {
